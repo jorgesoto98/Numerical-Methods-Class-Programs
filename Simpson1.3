@@ -1,0 +1,64 @@
+clear 
+//Jorge Miguel Soto Rodriguez
+//A01282936
+//Metodos Numericos
+//Simpson 1/3
+//Nov 8 2019
+
+//Programa que aproxima la integral de la funcion por medio del metodo Simpson1/3
+
+//Funcion a integrar
+function dY = F(dX) 
+    dY = 1 - exp(-dX) 
+endfunction
+
+
+//Funcion Simpson 1/3
+function  AREA = Simpson13(Da,Db,In)
+    //Econtrar la h
+    Dh = ((Db-Da)/In);
+    
+    //A y B en la funcion
+    dfA = F(Da);
+    dfB = F(Db);
+    
+    //Inicializar las sumas
+    dSumaPar = 0;
+    dSumaImpar = 0;
+    
+    //Suma impares
+    for i = 1:2 : In - 1
+        nuevaH = Dh*i;
+        dSumaImpar = dSumaImpar + F(nuevaH)
+    end
+    
+    //Suma pares
+        for i = 2:2 : In - 2
+            nuevaH = Dh*i;
+            dSumaPar = dSumaPar + F(nuevaH)
+    end
+    
+    //Formula Simpson
+    AREA = (Dh/3) * ( dfA + 4 * dSumaImpar + 2 * dSumaPar + dfB)
+endfunction 
+
+//Programa
+
+//Valores de a, b y n
+Da = input("Valor del limite A ?")
+Db = input("Valor del limite B ?")
+
+//Validacion para que el limite B siempre sea mayor que el limite A
+while (Db < Da)
+    Db = input("* Debe ser mayor a limite A * Valor del limite B ?")
+    end
+
+In = input("Cantidad de intervalos ? ")
+
+//Validacion para que la cantidad de intervalos sea par
+while(pmodulo(In,2) <> 0)
+    In = input("* Debe ser Par * Cantidad de intervalos ? ")
+    end
+
+//Desplega resultados
+disp("Integral Aproximada por Simpson 1/3 es de " + string(Simpson13(Da,Db,In)))
